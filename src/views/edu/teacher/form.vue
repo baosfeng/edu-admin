@@ -70,7 +70,7 @@ export default {
         })
         .then((resposne) => {
           // 添加成功，返回列表页面
-          this.$router.push({ path: "/edu/teacher" });
+          this.$router.push({ path: "/edu_teacher/teacher" });
         })
         .catch((response) => {
           this.$message({
