@@ -37,5 +37,11 @@ export default {
             method: 'put',
             data: teacher
         })
-    }
+    },
+    getList() {
+        return request({
+            url: api_name,
+            method: 'get'
+        })
+    },
 }
