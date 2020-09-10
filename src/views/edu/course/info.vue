@@ -32,7 +32,7 @@
         <el-select v-model="courseInfo.subjectId" placeholder="请选择">
           <el-option
             v-for="subject in subSubjectList"
-            :key="subject.value"
+            :key="subject.id"
             :label="subject.title"
             :value="subject.id"
           />
@@ -117,44 +117,57 @@ export default {
       subSubjectList: [], //二级分类列表
       teacherList: [], // 讲师列表
       BASE_API: process.env.BASE_API, // 接口API地址
+      courseId: "",
     };
   },
 
   watch: {
     $route(to, from) {
-      console.log("watch $route");
       this.init();
     },
   },
 
   created() {
-    console.log("info created");
-    this.init();
+    //初始化所有讲师
+    this.initTeacherList();
+    //初始化一级分类
+    this.initSubjectList();
+    //获取路由id值
+    if (this.$route.params && this.$route.params.id) {
+      //调用根据id查询课程的方法
+      this.init();
+    } else {
+      this.courseInfo = { ...defaultForm };
+    }
   },
 
   methods: {
     init() {
-      if (this.$route.params && this.$route.params.id) {
-        const id = this.$route.params.id;
-        console.log(id);
-      } else {
-        this.courseInfo = { ...defaultForm };
-      }
-      // 初始化分类列表
-      this.initSubjectList();
-      // 获取讲师列表
-      this.initTeacherList();
+      const id = this.$route.params.id;
+      //根据id获取课程基本信息
+      course.getCourseInfoById(id).then((response) => {
+        this.courseInfo = response.data.item;
+        let parentSubjectId = this.courseInfo.subjectParentId;
+        this.subjectNestedList.forEach(value=>{
+          if (value.id === parentSubjectId) {
+            this.subSubjectList = value.children;
+          }
+        })
+      });
     },
+    // 初始化课程列表
     initSubjectList() {
       subject.getNestedTreeList().then((response) => {
         this.subjectNestedList = response.data.items;
       });
     },
+    // 初始化讲师列表
     initTeacherList() {
       teacher.getList().then((response) => {
         this.teacherList = response.data.items;
       });
     },
+    // 第一级列表被点击之后
     subjectLevelOneChanged(value) {
       console.log(value);
       for (let i = 0; i < this.subjectNestedList.length; i++) {
@@ -165,7 +178,6 @@ export default {
       }
     },
     next() {
-      console.log("next");
       this.saveBtnDisabled = true;
       if (!this.courseInfo.id) {
         this.saveData();

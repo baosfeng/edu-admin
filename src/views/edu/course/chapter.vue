@@ -22,22 +22,24 @@ export default {
   data() {
     return {
       saveBtnDisabled: false, // 保存按钮是否禁用
+      courseId: "", //课程id
     };
   },
 
   created() {
-    console.log("chapter created");
+    //获取路由的id值
+    if (this.$route.params && this.$route.params.id) {
+      this.courseId = this.$route.params.id;
+    }
   },
 
   methods: {
     previous() {
-      console.log("previous");
-      this.$router.push({ path: "/edu/course/info/1" });
+      this.$router.push({ path: "/edu/course/info/" + this.courseId });
     },
 
     next() {
-      console.log("next");
-      this.$router.push({ path: "/edu/course/publish/1" });
+      this.$router.push({ path: "/edu/course/publish/" + this.courseId });
     },
   },
 };
