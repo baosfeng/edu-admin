@@ -30,8 +30,10 @@
         <p>
           {{ chapter.title }}
           <span class="acts">
-            <el-button type="text"
-              @click="dialogVideoFormVisible = true; chapterId = chapter.id">添加课时</el-button>
+            <el-button
+              type="text"
+              @click="dialogVideoFormVisible = true; chapterId = chapter.id"
+            >添加课时</el-button>
             <el-button type="text" @click="editChapter(chapter.id)">编辑</el-button>
             <el-button type="text" @click="removeChapter(chapter.id)">删除</el-button>
           </span>
@@ -67,7 +69,30 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="上传视频">
-          <!-- TODO -->
+          <el-form-item label="上传视频">
+            <el-upload
+              :on-success="handleVodUploadSuccess"
+              :on-remove="handleVodRemove"
+              :before-remove="beforeVodRemove"
+              :on-exceed="handleUploadExceed"
+              :file-list="fileList"
+              :action="BASE_API+'/edu_oss/video/upload'"
+              :limit="1"
+              class="upload-demo"
+            >
+              <el-button size="small" type="primary">上传视频</el-button>
+              <el-tooltip placement="right-end">
+                <div slot="content">
+                  最大支持1G，
+                  <br />支持3GP、ASF、AVI、DAT、DV、FLV、F4V、
+                  <br />GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、
+                  <br />MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、
+                  <br />SWF、TS、VOB、WMV、WEBM 等视频格式上传
+                </div>
+                <i class="el-icon-question" />
+              </el-tooltip>
+            </el-upload>
+          </el-form-item>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -108,6 +133,8 @@ export default {
         free: 0,
         videoSourceId: "",
       },
+      fileList: [], //上传文件列表
+      BASE_API: process.env.BASE_API, // 接口API地址
     };
   },
 
@@ -120,6 +147,28 @@ export default {
   },
 
   methods: {
+    beforeVodRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    //成功回调
+    handleVodUploadSuccess(response, file, fileList) {
+      this.video.videoSourceId = response.data.videoId;
+    },
+    //视图上传多于一个视频
+    handleUploadExceed(files, fileList) {
+      this.$message.warning("想要重新上传视频，请先删除已上传的视频");
+    },
+    handleVodRemove(file, fileList) {
+      video.removeById(this.video.videoSourceId).then((response) => {
+        this.video.videoSourceId = "";
+        this.video.videoOriginalName = "";
+        this.fileList = [];
+        this.$message({
+          type: "success",
+          message: response.message,
+        });
+      });
+    },
     previous() {
       this.$router.push({ path: "/edu/course/info/" + this.courseId });
     },
