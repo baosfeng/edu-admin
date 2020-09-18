@@ -22,5 +22,18 @@ export default {
             method: 'put',
             data: courseInfo
         })
-    }
+    },
+    getPageList(page, limit, searchObj) {
+        return request({
+            url: `${api_name}/${page}/${limit}`,
+            method: 'get',
+            params: searchObj
+        })
+    },
+    removeById(id) {
+        return request({
+            url: `${api_name}/${id}`,
+            method: 'delete'
+        })
+    },
 }
