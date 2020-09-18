@@ -148,11 +148,11 @@ export default {
       course.getCourseInfoById(id).then((response) => {
         this.courseInfo = response.data.item;
         let parentSubjectId = this.courseInfo.subjectParentId;
-        this.subjectNestedList.forEach(value=>{
+        this.subjectNestedList.forEach((value) => {
           if (value.id === parentSubjectId) {
             this.subSubjectList = value.children;
           }
-        })
+        });
       });
     },
     // 初始化课程列表
@@ -211,7 +211,27 @@ export default {
     },
 
     updateData() {
-      this.$router.push({ path: "/edu/course/chapter/1" });
+      this.saveBtnDisabled = true;
+      course
+        .updateCourseInfoById(this.courseInfo)
+        .then((response) => {
+          this.$message({
+            type: "success",
+            message: "修改成功!",
+          });
+          return response; // 将响应结果传递给then
+        })
+        .then((response) => {
+          this.$router.push({
+            path: "/edu/course/chapter/" + response.data.courseId,
+          });
+        })
+        .catch((response) => {
+          this.$message({
+            type: "error",
+            message: "保存失败",
+          });
+        });
     },
     handleAvatarSuccess(res, file) {
       this.courseInfo.cover = res.data.url;
