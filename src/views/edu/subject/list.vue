@@ -1,20 +1,21 @@
 <template>
   <div class="app-container">
-    <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
+    <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;"/>
 
     <el-tree
-      ref="subjectTree"
-      :data="subjectList"
-      :props="defaultProps"
-      :filter-node-method="filterNode"
-      class="filter-tree"
-      default-expand-all
+        ref="subjectTree"
+        :data="subjectList"
+        :filter-node-method="filterNode"
+        :props="defaultProps"
+        class="filter-tree"
+        default-expand-all
     />
   </div>
 </template>
 
 <script>
 import subject from "@/api/edu/subject";
+
 export default {
   data() {
     return {

@@ -2,10 +2,10 @@
   <div class="app-container">
     <h2 style="text-align: center;">发布新课程</h2>
 
-    <el-steps :active="2" process-status="wait" align-center style="margin-bottom: 40px;">
-      <el-step title="填写课程基本信息" />
-      <el-step title="创建课程大纲" />
-      <el-step title="提交审核" />
+    <el-steps :active="2" align-center process-status="wait" style="margin-bottom: 40px;">
+      <el-step title="填写课程基本信息"/>
+      <el-step title="创建课程大纲"/>
+      <el-step title="提交审核"/>
     </el-steps>
 
     <el-button type="text" @click="dialogChapterFormVisible = true">添加章节</el-button>
@@ -13,10 +13,10 @@
     <el-dialog :visible.sync="dialogChapterFormVisible" title="添加章节">
       <el-form :model="chapter" label-width="120px">
         <el-form-item label="章节标题">
-          <el-input v-model="chapter.title" />
+          <el-input v-model="chapter.title"/>
         </el-form-item>
         <el-form-item label="章节排序">
-          <el-input-number v-model="chapter.sort" :min="0" controls-position="right" />
+          <el-input-number v-model="chapter.sort" :min="0" controls-position="right"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -31,8 +31,8 @@
           {{ chapter.title }}
           <span class="acts">
             <el-button
-              type="text"
-              @click="dialogVideoFormVisible = true; chapterId = chapter.id"
+                type="text"
+                @click="dialogVideoFormVisible = true; chapterId = chapter.id"
             >添加课时</el-button>
             <el-button type="text" @click="editChapter(chapter.id)">编辑</el-button>
             <el-button type="text" @click="removeChapter(chapter.id)">删除</el-button>
@@ -57,10 +57,10 @@
     <el-dialog :visible.sync="dialogVideoFormVisible" title="添加课时">
       <el-form :model="video" label-width="120px">
         <el-form-item label="课时标题">
-          <el-input v-model="video.title" />
+          <el-input v-model="video.title"/>
         </el-form-item>
         <el-form-item label="课时排序">
-          <el-input-number v-model="video.sort" :min="0" controls-position="right" />
+          <el-input-number v-model="video.sort" :min="0" controls-position="right"/>
         </el-form-item>
         <el-form-item label="是否免费">
           <el-radio-group v-model="video.free">
@@ -71,25 +71,25 @@
         <el-form-item label="上传视频">
           <el-form-item label="上传视频">
             <el-upload
-              :on-success="handleVodUploadSuccess"
-              :on-remove="handleVodRemove"
-              :before-remove="beforeVodRemove"
-              :on-exceed="handleUploadExceed"
-              :file-list="fileList"
-              :action="BASE_API+'/edu_oss/video/upload'"
-              :limit="1"
-              class="upload-demo"
+                :action="BASE_API+'/edu_oss/video/upload'"
+                :before-remove="beforeVodRemove"
+                :file-list="fileList"
+                :limit="1"
+                :on-exceed="handleUploadExceed"
+                :on-remove="handleVodRemove"
+                :on-success="handleVodUploadSuccess"
+                class="upload-demo"
             >
               <el-button size="small" type="primary">上传视频</el-button>
               <el-tooltip placement="right-end">
                 <div slot="content">
                   最大支持1G，
-                  <br />支持3GP、ASF、AVI、DAT、DV、FLV、F4V、
-                  <br />GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、
-                  <br />MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、
-                  <br />SWF、TS、VOB、WMV、WEBM 等视频格式上传
+                  <br/>支持3GP、ASF、AVI、DAT、DV、FLV、F4V、
+                  <br/>GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、
+                  <br/>MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、
+                  <br/>SWF、TS、VOB、WMV、WEBM 等视频格式上传
                 </div>
-                <i class="el-icon-question" />
+                <i class="el-icon-question"/>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -173,11 +173,11 @@ export default {
       });
     },
     previous() {
-      this.$router.push({ path: "/edu/course/info/" + this.courseId });
+      this.$router.push({path: "/edu/course/info/" + this.courseId});
     },
 
     next() {
-      this.$router.push({ path: "/edu/course/publish/" + this.courseId });
+      this.$router.push({path: "/edu/course/publish/" + this.courseId});
     },
     init() {
       if (this.$route.params && this.$route.params.id) {
@@ -205,38 +205,38 @@ export default {
     saveData() {
       this.chapter.courseId = this.courseId;
       chapter
-        .save(this.chapter)
-        .then((response) => {
-          this.$message({
-            type: "success",
-            message: "保存成功!",
+          .save(this.chapter)
+          .then((response) => {
+            this.$message({
+              type: "success",
+              message: "保存成功!",
+            });
+            this.helpSave();
+          })
+          .catch((response) => {
+            this.$message({
+              type: "error",
+              message: response.message,
+            });
           });
-          this.helpSave();
-        })
-        .catch((response) => {
-          this.$message({
-            type: "error",
-            message: response.message,
-          });
-        });
     },
 
     updateData() {
       chapter
-        .updateById(this.chapter)
-        .then((response) => {
-          this.$message({
-            type: "success",
-            message: "修改成功!",
+          .updateById(this.chapter)
+          .then((response) => {
+            this.$message({
+              type: "success",
+              message: "修改成功!",
+            });
+            this.helpSave();
+          })
+          .catch((response) => {
+            this.$message({
+              type: "error",
+              message: response.message,
+            });
           });
-          this.helpSave();
-        })
-        .catch((response) => {
-          this.$message({
-            type: "error",
-            message: response.message,
-          });
-        });
     },
 
     helpSave() {
@@ -258,30 +258,30 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       })
-        .then(() => {
-          return chapter.removeById(chapterId);
-        })
-        .then(() => {
-          this.fetchChapterNestedListByCourseId(); // 刷新列表
-          this.$message({
-            type: "success",
-            message: "删除成功!",
+          .then(() => {
+            return chapter.removeById(chapterId);
+          })
+          .then(() => {
+            this.fetchChapterNestedListByCourseId(); // 刷新列表
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+          })
+          .catch((response) => {
+            // 失败
+            if (response === "cancel") {
+              this.$message({
+                type: "info",
+                message: "已取消删除",
+              });
+            } else {
+              this.$message({
+                type: "error",
+                message: response.message,
+              });
+            }
           });
-        })
-        .catch((response) => {
-          // 失败
-          if (response === "cancel") {
-            this.$message({
-              type: "info",
-              message: "已取消删除",
-            });
-          } else {
-            this.$message({
-              type: "error",
-              message: response.message,
-            });
-          }
-        });
     },
     saveOrUpdateVideo() {
       this.saveVideoBtnDisabled = true;
@@ -327,7 +327,7 @@ export default {
       video.getVideoInfoById(videoId).then((response) => {
         this.video = response.data.item;
         this.video = response.data.item;
-        this.fileList = [{ name: this.video.videoOriginalName }];
+        this.fileList = [{name: this.video.videoOriginalName}];
       });
     },
     removeVideo(videoId) {
@@ -336,25 +336,25 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       })
-        .then(() => {
-          return video.removeById(videoId);
-        })
-        .then(() => {
-          this.fetchChapterNestedListByCourseId(); // 刷新列表
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch((response) => {
-          // 失败
-          if (response === "cancel") {
+          .then(() => {
+            return video.removeById(videoId);
+          })
+          .then(() => {
+            this.fetchChapterNestedListByCourseId(); // 刷新列表
             this.$message({
-              type: "info",
-              message: "已取消删除",
+              type: "success",
+              message: "删除成功!",
             });
-          }
-        });
+          })
+          .catch((response) => {
+            // 失败
+            if (response === "cancel") {
+              this.$message({
+                type: "info",
+                message: "已取消删除",
+              });
+            }
+          });
     },
   },
 };

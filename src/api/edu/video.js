@@ -4,33 +4,33 @@ const api_name = '/edu_teacher/video'
 
 export default {
 
-    saveVideoInfo(videoInfo) {
-        return request({
-            url: `${api_name}/save-video-info`,
-            method: 'post',
-            data: videoInfo
-        })
-    },
+	saveVideoInfo(videoInfo) {
+		return request({
+			url: `${api_name}/save-video-info`,
+			method: 'post',
+			data: videoInfo
+		})
+	},
 
-    getVideoInfoById(id) {
-        return request({
-            url: `${api_name}/video-info/${id}`,
-            method: 'get'
-        })
-    },
+	getVideoInfoById(id) {
+		return request({
+			url: `${api_name}/video-info/${id}`,
+			method: 'get'
+		})
+	},
 
-    updateVideoInfoById(videoInfo) {
-        return request({
-            url: `${api_name}/update-video-info/${videoInfo.id}`,
-            method: 'put',
-            data: videoInfo
-        })
-    },
+	updateVideoInfoById(videoInfo) {
+		return request({
+			url: `${api_name}/update-video-info/${videoInfo.id}`,
+			method: 'put',
+			data: videoInfo
+		})
+	},
 
-    removeById(id) {
-        return request({
-            url: `${api_name}/${id}`,
-            method: 'delete'
-        })
-    }
+	removeById(id) {
+		return request({
+			url: `${api_name}/${id}`,
+			method: 'delete'
+		})
+	}
 }

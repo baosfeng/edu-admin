@@ -4,31 +4,32 @@
       <el-form-item label="信息描述">
         <el-tag type="info">excel模版说明</el-tag>
         <el-tag>
-          <i class="el-icon-download" />
+          <i class="el-icon-download"/>
           <a :href="'/static/01.xlsx'">点击下载模版</a>
         </el-tag>
       </el-form-item>
 
       <el-form-item label="选择Excel">
         <el-upload
-          ref="upload"
-          :auto-upload="false"
-          :on-success="fileUploadSuccess"
-          :on-error="fileUploadError"
-          :disabled="importBtnDisabled"
-          :limit="1"
-          :action="BASE_API+'/edu_teacher/subject/import'"
-          name="file"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+            ref="upload"
+            :action="BASE_API+'/edu_teacher/subject/import'"
+            :auto-upload="false"
+            :disabled="importBtnDisabled"
+            :limit="1"
+            :on-error="fileUploadError"
+            :on-success="fileUploadSuccess"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+            name="file"
         >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button
-            :loading="loading"
-            style="margin-left: 10px;"
-            size="small"
-            type="success"
-            @click="submitUpload"
-          >{{ fileUploadBtnText }}</el-button>
+              :loading="loading"
+              size="small"
+              style="margin-left: 10px;"
+              type="success"
+              @click="submitUpload"
+          >{{ fileUploadBtnText }}
+          </el-button>
         </el-upload>
       </el-form-item>
     </el-form>
