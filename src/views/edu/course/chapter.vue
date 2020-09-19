@@ -162,15 +162,23 @@ export default {
       this.$message.warning("想要重新上传视频，请先删除已上传的视频");
     },
     handleVodRemove(file, fileList) {
-      vod.removeById(this.video.videoSourceId).then((response) => {
-        this.video.videoSourceId = "";
-        this.video.videoOriginalName = "";
-        this.fileList = [];
-        this.$message({
-          type: "success",
-          message: response.message,
-        });
-      });
+      vod.removeById(this.video.videoSourceId)
+          .then((response) => {
+            this.video.videoSourceId = "";
+            this.video.videoOriginalName = "";
+            this.fileList = [];
+            this.$message({
+              type: "success",
+              message: response.message,
+            });
+          })
+          .catch((response) => {
+            this.$message({
+              type: "error",
+              message: response.message,
+            });
+          })
+      ;
     },
     previous() {
       this.$router.push({path: "/edu/course/info/" + this.courseId});
